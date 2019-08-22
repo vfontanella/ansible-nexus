@@ -1,0 +1,29 @@
+---
+# enable basic setup for TLS and lets encrypt integration, remember to use
+# challenge DNS for verification of ownership
+#apache_mods_enabled:
+#  - rewrite.load
+#  - headers.load
+#manage_tls: true
+#manage_apache: true
+#acme_subject_alt_names: "-d registry-repo.{{ eigen_fqdn }} -d {{ nexus_fqdn }}"
+
+#apache_vhosts_ssl:
+
+#  - servername: "{{ nexus_fqdn }}"
+#    documentroot: "/var/www/html"
+#    certificate_file: "/root/.acme.sh/{{ nexus_fqdn }}/{{ nexus_fqdn }}.cer"
+#    certificate_key_file: "/root/.acme.sh/{{ nexus_fqdn }}/{{ nexus_fqdn }}.key"
+#    certificate_chain_file: "/root/.acme.sh/{{ nexus_fqdn }}/fullchain.cer"
+#    extra_parameters: |
+#      RequestHeader set X-Forwarded-Proto "https"
+#      ProxyPass / http://localhost:8081/
+#      ProxyPassReverse / http://localhost:8081/
+
+#apache_vhosts:
+#  # Additional optional properties: 'serveradmin, serveralias, extra_parameters'.
+#  - servername: "{{ nexus_fqdn }}"
+#    extra_parameters: |
+#      RequestHeader set X-Forwarded-Proto "http"
+#      ProxyPass / http://localhost:8081/
+#      ProxyPassReverse / http://localhost:8081/

@@ -1,0 +1,79 @@
+---
+- hosts: nexus
+  become: yes
+  
+  vars:
+    nexus_version: latest
+    nexus_uid: 200
+    nexus_gid: 200
+    nexus_data: /data/nexus-data/sonatype-work
+  vars_files:        
+    - "group_vars/all"
+    - "host_vars/nexus.devopsy.me"
+  tasks:
+    - name: "Ansible_hostname {{ ansible_hostname }}"
+      ping:
+
+    - name: Start and Enable Docker
+      service:
+        name: docker
+        state: started
+
+    - name: create directories for docker persistence (nexus)
+      file:
+        state: directory
+        path: "{{ nexus_data }}"
+        owner: "{{ nexus_uid }}"
+        group: "{{ nexus_gid }}"
+
+    - name: install nexus container
+      docker_container:
+        name: nexus
+        image: "sonatype/nexus3:{{ nexus_version }}"
+        restart_policy: unless-stopped
+        state: started
+        network_mode: host
+        ports:
+          - "80:8081"
+          - "8082:8082"
+          - "8085:8085"
+          - "5000:5000"
+        volumes:
+          - "/data/nexus-data/sonatype-work:/nexus-data"
+
+#    - name: set SELinux to permissive
+#      selinux:
+#        policy: targeted
+#        state: permissive
+
+#    - name: install and setup TLS if manage_tls
+#      include_role:
+#        name: acme-certs
+#      when:
+#        - manage_tls is defined
+#        - manage_tls|bool
+
+#    - name: setup apache config if manage_apache is set
+#      include_role:
+#        name: geerlingguy.apache
+#      when:
+#        - manage_apache is defined
+#        - manage_apache|bool
+
+    # Copy our default vhost and ssl.conf into place if necessary
+#    - copy: src=files/eigen-vhost.conf dest=/etc/httpd/conf.d/eigen-vhost.conf
+    
+#    - copy: src=files/eigen-vhost.conf dest=/etc/httpd/conf.d/eigen-vhost.conf
+#      notify: restart apache
+
+ #   - name: Firewall open HTTPS port
+#      firewalld: port=443/tcp zone=public permanent=true state=enabled immediate=yes
+#    - name: Firewall open http port
+#      firewalld: port=80/tcp zone=public permanent=true state=enabled immediate=yes
+#    - name: Firewall open traefik portal port
+#      firewalld: port=8081/tcp zone=public permanent=true state=enabled immediate=yes
+#    - name: Firewall open Docker repo port
+#      firewalld: port=8085/tcp zone=public permanent=true state=enabled immediate=yes
+#    - name: Firewall open Docker repo port ext
+#      firewalld: port=8084/tcp zone=public permanent=true state=enabled immediate=yes
+

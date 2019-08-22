@@ -1,0 +1,5 @@
+eigen_fqdn: eigen.co
+nexus_fqdn: "nexus.{{ eigen_fqdn }}"
+cloudflare_id: "vicente.fontanella@eigen.co"
+cloudflare_api_key: "84bd67df97f6a8f2f1d0f946f7079dc28ca9a"
+
