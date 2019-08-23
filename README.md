@@ -1,13 +1,13 @@
 # [==== Nexus docker container ====|
 Nexus repository at (AWS)
 
-## Installation Guide
+## +Installation Guide
 - Connect to aws bastion host first
  - configure hosts file inside inventory firectory accordingly
  - execute the command:
    ansible-playbook -i inventory/hosts ansible-playbook.yml
 
-### Pre-requisites
+### +Pre-requisites
 We'll need the following installed in our host machine:
 - [Docker](https://www.docker.com/get-docker)
 - [Ansible](https://www.ansible.com/)
