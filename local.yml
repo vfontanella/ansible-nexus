@@ -1,6 +1,5 @@
 ---
 - hosts: nexus
-  user: root
   become: yes
   
   vars:
